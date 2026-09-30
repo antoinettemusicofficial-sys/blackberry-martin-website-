@@ -279,13 +279,27 @@
       var body = JSON.stringify(data);
 
       function done(ok) {
-        if (ok) {
-          form.reset();
-          say(form.getAttribute('data-success') || 'Thanks — you’re on the list.', 'ok');
-        } else {
+        if (!ok) {
           say('Something went wrong. Try again, or email us directly.', 'err');
+          if (button) { button.disabled = false; button.textContent = original; }
+          return;
         }
-        if (button) { button.disabled = false; button.textContent = original; }
+        // Replace the form with a confirmation. A line of status text under a
+        // still-filled-in form reads as "did that work?" — especially with no
+        // welcome email going out yet.
+        form.reset();
+        var panel = document.createElement('div');
+        panel.className = 'thanks';
+        panel.setAttribute('role', 'status');
+        panel.innerHTML =
+          '<span class="thanks__mark" aria-hidden="true">&#10022;</span>' +
+          '<p class="thanks__title">' + (form.getAttribute('data-thanks-title') || 'You’re on the list.') + '</p>' +
+          '<p class="thanks__note">' + (form.getAttribute('data-thanks-note') ||
+            'We’ll be in touch when there’s something worth telling you about — new music, shows, merch. Nothing else.') + '</p>';
+        var slot = form.parentNode;
+        form.remove();
+        if (status && status.parentNode) status.remove();
+        slot.appendChild(panel);
       }
 
       fetch(conf.webhookUrl, {

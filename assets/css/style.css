@@ -757,6 +757,37 @@ h1, h2, h3 { font-family: var(--display); font-weight: 400; letter-spacing: -0.0
 .modal__title { font-family: var(--display); font-size: clamp(1.6rem, 4vw, 2.1rem); margin: 0; }
 .modal__sub { margin: 0.7rem 0 1.6rem; color: rgba(58, 46, 35, 0.66); font-size: 0.95rem; }
 
+
+/* --- post-submit confirmation ---------------------------------------------
+   Replaces the form outright rather than adding a line of status text under
+   it. With no welcome email going out yet, this is the only acknowledgement
+   someone gets — it needs to be unmissable.
+   --------------------------------------------------------------------------- */
+.thanks { text-align: center; padding: clamp(1.5rem, 4vw, 2.5rem) 1rem; }
+.thanks__mark {
+  display: block;
+  font-family: var(--display);
+  font-size: 1.75rem;
+  line-height: 1;
+  color: var(--ochre);
+  margin-bottom: 1rem;
+}
+.thanks__title {
+  font-family: var(--display);
+  font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+  line-height: 1.1;
+  margin: 0;
+}
+.thanks__note {
+  margin: 0.9rem auto 0;
+  max-width: 34ch;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  opacity: 0.72;
+}
+/* on the dark Music panel the cream form-box keeps its own colours */
+.split .thanks { color: var(--ink); }
+
 /* --- scroll reveal ------------------------------------------------------- */
 .reveal { opacity: 0; transform: translateY(26px); transition: opacity 900ms var(--ease), transform 900ms var(--ease); }
 .reveal.is-in { opacity: 1; transform: none; }
