@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Music — Blackberry Martin</title>
+<meta name="description" content="New Blackberry Martin music coming soon.">
+<meta property="og:title" content="Music — Blackberry Martin">
+<meta property="og:description" content="New Blackberry Martin music coming soon.">
+<meta property="og:image" content="assets/img/og.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#241c15">
+<link rel="icon" href="assets/img/cover-1.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav nav--over-hero">
+  <a class="nav__mark" href="index.html">Blackberry&nbsp;Martin</a>
+  <nav class="nav__links" aria-label="Primary">
+    <a href="music.html" aria-current="page">Music</a>
+    <a href="signup.html">Sign Up</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<main id="main">
+
+
+  <section class="split">
+
+    <figure class="print reveal">
+      <div class="print__window">
+        <video data-hero-video="music" muted loop playsinline preload="metadata" aria-hidden="true"></video>
+      </div>
+    </figure>
+
+    <div class="split__text reveal">
+      <figure class="split__media">
+        <img src="assets/img/band-photo.jpg"
+             alt="Volume 2 album cover — an instax print of Blackberry Martin on a porch, lying on a wooden table"
+             loading="lazy">
+      </figure>
+
+      <div class="cover__caption">
+        <p class="eyebrow">Debut album</p>
+        <h1 class="album__title">Volume&nbsp;2</h1>
+        <p class="album__sub">is in the works</p>
+        <p class="lede album__note">
+          Join the list and you'll know the day it lands.
+        </p>
+      </div>
+
+      <!-- GHL embed lands here if you set a form ID in config.js; otherwise
+           this styled form posts to the newsletter webhook. -->
+      <div class="form-box" data-ghl="newsletter">
+        <form class="form" style="padding:1.25rem">
+          <label class="hp" aria-hidden="true">
+            Company website <input type="text" name="company_website" tabindex="-1" autocomplete="off">
+          </label>
+          <div class="field">
+            <label class="hp" for="a-email">Email address</label>
+            <input id="a-email" type="email" name="email" placeholder="Email address" required autocomplete="email">
+          </div>
+          <div>
+            <button class="btn" type="submit">Join the list</button>
+          </div>
+          <p class="form__status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<footer class="footer">
+      <div class="wrap footer__base">
+        <ul class="icon-row" data-icons style="justify-content:flex-start"></ul>
+        <a class="btn btn--email btn--display" data-link="email" href="#">Email us</a>
+        <p>&copy; <span data-year>2026</span> Blackberry Martin</p>
+      </div>
+    </footer>
+
+
+<!-- Mailing list popup. Fires once on a first visit; the Sign Up link opens it
+     any time. The footer bar covers everyone who dismisses it. -->
+<div class="modal" id="signup-modal" role="dialog" aria-modal="true" aria-labelledby="signup-modal-title" hidden>
+  <div class="modal__panel">
+    <button class="modal__close" type="button" aria-label="Close">&times;</button>
+    <h2 class="modal__title" id="signup-modal-title">Join the list</h2>
+    <p class="modal__sub">First to hear when the new music lands. Once a month at most, unsubscribe whenever.</p>
+
+    <div data-ghl="newsletter">
+      <form class="form" data-success="You’re on the list. Talk soon.">
+        <label class="hp" aria-hidden="true">
+          Company website <input type="text" name="company_website" tabindex="-1" autocomplete="off">
+        </label>
+        <div class="form__row">
+          <div class="field">
+            <label for="m-name">Name</label>
+            <input id="m-name" type="text" name="first_name" autocomplete="given-name">
+          </div>
+          <div class="field">
+            <label for="m-city">City</label>
+            <input id="m-city" type="text" name="city" autocomplete="address-level2">
+          </div>
+        </div>
+        <div class="field">
+          <label for="m-email">Email <span aria-hidden="true">*</span></label>
+          <input id="m-email" type="email" name="email" required autocomplete="email">
+        </div>
+        <div>
+          <button class="btn" type="submit">Join the list</button>
+        </div>
+        <p class="form__status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

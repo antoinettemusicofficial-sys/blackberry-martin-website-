@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630"><defs><filter id="g"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter></defs>
+<rect width="1200" height="630" fill="#241c15"/>
+<circle cx="980" cy="500" r="230" fill="#c9952b" opacity="0.5"/>
+<path d="M0 470 C 260 420 460 500 700 460 C 900 428 1060 470 1200 450 L1200 630 L0 630 Z" fill="#47512f"/>
+<text x="80" y="300" font-family="Georgia, serif" font-size="92" fill="#f7f2e6" letter-spacing="2">BLACKBERRY</text>
+<text x="80" y="398" font-family="Georgia, serif" font-size="92" fill="#c9952b" letter-spacing="2">MARTIN</text>
+<rect width="1200" height="630" filter="url(#g)" opacity="0.28"/></svg>

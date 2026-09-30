@@ -1,0 +1,764 @@
+/* ==========================================================================
+   Blackberry Martin
+   Structure follows Arcy Drive / Backseat Lovers / Wallows: no About page,
+   no bio, a Music page that's just art + title + one link out, and the
+   mailing list as its own nav item plus a slim bar in the hero.
+   ========================================================================== */
+
+:root {
+  --cream:      #f7f2e6;
+  --bone:       #ece3d0;
+  --sand:       #ded2b8;
+  --ochre:      #c9952b;
+  --ochre-deep: #a2761c;
+  --moss:       #6d7a4a;
+  --moss-deep:  #47512f;
+  --clay:       #a86f45;
+  --bark:       #3a2e23;
+  --bark-deep:  #241c15;
+
+  --ink:   var(--bark-deep);
+  --paper: var(--cream);
+
+  /* Two faces only. Fraunces carries every heading; IBM Plex Mono does
+     everything else. A typewriter-ish mono is the Backseat Lovers move and
+     reads as deliberate where a default sans reads as unstyled. */
+  --display: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --body:    "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --gutter: clamp(1.25rem, 5vw, 5rem);
+  --section-y: clamp(4.5rem, 12vw, 10rem);
+  --rule: 1px solid rgba(58, 46, 35, 0.18);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: clamp(0.875rem, 0.84rem + 0.16vw, 0.9375rem);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img, video { max-width: 100%; display: block; }
+a { color: inherit; }
+
+/* --- film grain ----------------------------------------------------------
+   Live, moving grain over the whole page — including the hero video. This is
+   why nothing should have grain baked into it: you'd get it twice, and baked
+   grain is frozen per frame, which reads as noise rather than film.
+   ------------------------------------------------------------------------- */
+.grain {
+  position: fixed;
+  inset: -150%;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.32;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+  animation: grain-shift 700ms steps(1) infinite;
+}
+@keyframes grain-shift {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(-2%, 1%); }
+  50%  { transform: translate(1%, -2%); }
+  75%  { transform: translate(-1%, -1%); }
+  100% { transform: translate(2%, 1%); }
+}
+@media (prefers-reduced-motion: reduce) { .grain { animation: none; } }
+
+/* --- layout -------------------------------------------------------------- */
+.wrap { width: 100%; max-width: 1240px; margin-inline: auto; padding-inline: var(--gutter); }
+.section { padding-block: var(--section-y); }
+.section--rule { border-top: var(--rule); }
+.narrow { max-width: 660px; margin-inline: auto; }
+
+h1, h2, h3 { font-family: var(--display); font-weight: 400; letter-spacing: -0.015em; line-height: 1.02; margin: 0; }
+.h-xl { font-size: clamp(3rem, 11vw, 9.5rem); }
+.h-lg { font-size: clamp(2.25rem, 6vw, 4.5rem); }
+.h-md { font-size: clamp(1.5rem, 3vw, 2.25rem); }
+
+.eyebrow {
+  font-size: 0.6875rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--moss-deep);
+  margin: 0 0 1.25rem;
+}
+.lede { font-size: clamp(0.9375rem, 0.9rem + 0.35vw, 1.0625rem); line-height: 1.7; }
+.muted { color: rgba(58, 46, 35, 0.66); }
+
+/* --- buttons ------------------------------------------------------------- */
+.btn {
+  --btn-bg: var(--bark);
+  --btn-fg: var(--cream);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.95rem 1.9rem;
+  border: 1px solid var(--bark);
+  border-radius: 999px;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 350ms var(--ease), background 350ms var(--ease), color 350ms var(--ease), border-color 350ms var(--ease);
+}
+/* Inverts rather than turning yellow — ochre is kept for small accents
+   (focus rings, field underlines) so it doesn't shout. */
+.btn:hover { transform: translateY(-2px); --btn-bg: transparent; --btn-fg: var(--bark); }
+.btn--ghost { --btn-bg: transparent; --btn-fg: var(--bark); }
+.btn--ghost:hover { --btn-bg: var(--bark); --btn-fg: var(--cream); }
+
+/* Matches the hero wordmark's face rather than the small caps used elsewhere. */
+.btn--display {
+  font-family: var(--display);
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  text-transform: none;
+  padding: 0.85rem 1.85rem;
+}
+
+/* --- nav -----------------------------------------------------------------
+   Arcy Drive's layout: wordmark centred at the top, the links spread wide
+   beneath it. No hamburger — three short items fit on one row at any width,
+   so the mobile sheet (and its stacking problems) is gone entirely.
+
+   The home page omits the wordmark — the hero already says the name, and
+   saying it twice on one screen is repetitive. Interior pages keep it, since
+   there it's the only branding and the only way back home.
+   ------------------------------------------------------------------------- */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.75rem, 1.6vw, 1.15rem);
+  padding: clamp(1.5rem, 3.5vw, 2.5rem) var(--gutter) clamp(1rem, 2vw, 1.4rem);
+  transition: background 400ms var(--ease), box-shadow 400ms var(--ease),
+              padding 400ms var(--ease), gap 400ms var(--ease);
+}
+.nav.is-stuck {
+  background: rgba(247, 242, 230, 0.9);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 1px 0 rgba(58, 46, 35, 0.14);
+  padding-block: 0.7rem 0.6rem;
+  gap: 0.35rem;
+}
+
+/* Over artwork the nav never takes a bar — not even once you've scrolled. It
+   just floats on the image. The shadow is what keeps it legible when a pale
+   part of the video or photo passes underneath, since there's no plate. */
+.nav--over-hero.is-stuck {
+  background: transparent;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+.nav--over-hero .nav__mark,
+.nav--over-hero .nav__links a {
+  color: var(--cream);
+  text-shadow: 0 1px 14px rgba(36, 28, 21, 0.75), 0 1px 3px rgba(36, 28, 21, 0.5);
+}
+
+.nav__mark {
+  font-family: var(--display);
+  font-size: clamp(1.05rem, 2.2vw, 1.5rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: font-size 400ms var(--ease);
+}
+.nav.is-stuck .nav__mark { font-size: clamp(0.95rem, 1.6vw, 1.1rem); }
+
+/* no wordmark on the home page — tighten the block up */
+.nav--over-hero { padding-top: clamp(1.25rem, 2.5vw, 1.9rem); }
+
+/* the links, spread across the width */
+.nav__links {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: clamp(320px, 52vw, 720px);
+}
+.nav__links a {
+  font-size: clamp(0.625rem, 1.1vw, 0.75rem);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  position: relative;
+  padding-block: 0.3rem;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  color: inherit;
+}
+.nav__links a::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 100%; height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 400ms var(--ease);
+}
+.nav__links a:hover::after,
+.nav__links a[aria-current="page"]::after { transform: scaleX(1); transform-origin: left; }
+
+/* Only the home page floats its nav over the video, so only there does it
+   start cream — elsewhere cream-on-cream would be invisible. */
+.nav:not(.nav--over-hero) {
+  background: rgba(247, 242, 230, 0.9);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 1px 0 rgba(58, 46, 35, 0.14);
+}
+
+/* --- hero ---------------------------------------------------------------- */
+/* Three rows, and taller than the viewport on purpose:
+     1. exactly 100svh — the name sits dead centre of the first screen
+     2. a stretch of pure video, so there's something to scroll into
+     3. the frosted mailing list bar, which starts below the fold
+   Making the bar a grid row rather than an absolute overlay is what stops it
+   colliding with the name at any window height. */
+.hero {
+  position: relative;
+  min-height: 114svh;
+  display: grid;
+  grid-template-rows: 100svh 1fr auto;
+  text-align: center;
+  overflow: hidden;
+  background: var(--bark-deep);
+}
+.hero__media { position: absolute; inset: 0; }
+.hero__media img,
+.hero__media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* The warm Backseat Lovers grade, done live rather than baked in — tweak
+     these four numbers to taste, no re-encode needed. */
+  filter: sepia(0.32) saturate(0.82) contrast(1.12) brightness(0.58);
+}
+/* warm light bleeding into the highlights */
+.hero__media::before {
+  content: "";
+  position: absolute; inset: 0;
+  background: radial-gradient(60% 50% at 50% 62%, rgba(232, 196, 113, 0.30), transparent 70%);
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+  z-index: 1;
+}
+/* legibility gradient + vignette */
+.hero__media::after {
+  content: "";
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(115% 85% at 50% 48%, transparent 28%, rgba(36, 28, 21, 0.72) 100%),
+    linear-gradient(to bottom, rgba(36, 28, 21, 0.62) 0%, rgba(36, 28, 21, 0.34) 40%, rgba(36, 28, 21, 0.82) 100%);
+  pointer-events: none;
+}
+
+.hero__inner {
+  grid-row: 1;
+  align-self: center;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 900px;
+  margin-inline: auto;
+  padding: clamp(5.5rem, 13vh, 8rem) var(--gutter) clamp(1.5rem, 3vw, 2.5rem);
+  color: var(--cream);
+}
+.hero__title { color: var(--cream); text-transform: uppercase; }
+.hero__title span { display: block; }
+
+.scroll-cue {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(1.25rem, 3vw, 2rem);
+  transform: translateX(-50%);
+  font-size: 0.5625rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(247, 242, 230, 0.6);
+}
+@media (max-height: 720px) { .scroll-cue { display: none; } }
+
+/* --- circular icon row (Arcy Drive) --------------------------------------- */
+.icon-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; list-style: none; margin: 0; padding: 0; }
+.icon-row a {
+  display: grid;
+  place-items: center;
+  width: 36px; height: 36px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  color: rgba(247, 242, 230, 0.8);
+  text-decoration: none;
+  transition: color 320ms var(--ease), background 320ms var(--ease), transform 320ms var(--ease), border-color 320ms var(--ease);
+}
+.icon-row a:hover { color: var(--bark-deep); background: var(--ochre); border-color: var(--ochre); transform: translateY(-3px); }
+.icon-row svg { width: 15px; height: 15px; fill: currentColor; }
+.icon-row--ink a { color: rgba(58, 46, 35, 0.7); }
+
+/* --- releases ------------------------------------------------------------
+   UNUSED until there's something out. Kept ready: Arcy Drive's music page is
+   a centred column of big cover art, each with a title, a date and one
+   LISTEN NOW out to a smart link. No per-service buttons, no embedded player
+   — none of the references have either. The markup for one is in the README.
+   ------------------------------------------------------------------------- */
+.release-list { display: grid; gap: clamp(4rem, 10vw, 8rem); justify-items: center; }
+.release { width: min(100%, 620px); text-align: center; }
+.release__art {
+  position: relative;
+  aspect-ratio: 1;
+  background: var(--sand);
+  overflow: hidden;
+  box-shadow: 0 30px 60px -30px rgba(36, 28, 21, 0.45);
+}
+.release__art img { width: 100%; height: 100%; object-fit: cover; transition: transform 900ms var(--ease); }
+.release:hover .release__art img { transform: scale(1.03); }
+.release__title { font-family: var(--display); font-size: clamp(1.75rem, 4vw, 2.75rem); text-transform: uppercase; margin: 1.75rem 0 0; }
+.release__date { font-size: 0.6875rem; letter-spacing: 0.24em; text-transform: uppercase; color: rgba(58, 46, 35, 0.6); margin: 0.6rem 0 0; }
+.release__cta { margin-top: 1.5rem; }
+.release__cta a {
+  font-size: 0.75rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 0.3rem;
+  transition: color 320ms var(--ease);
+}
+.release__cta a:hover { color: var(--ochre-deep); }
+
+/* --- album announcement ----------------------------------------------------
+   A spread rather than a full-bleed: the video on one side, the instax print
+   on the other, the type down the middle. Both are shown whole (object-fit:
+   contain) instead of cropped — the clip is portrait 9:16, which a full-bleed
+   landscape page could only ever show a slice of.
+   --------------------------------------------------------------------------- */
+/* Video on one side, the sleeve on the other — cover art with the title
+   under it, the way a record is captioned. */
+.split {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: clamp(2rem, 5vw, 4.5rem);
+  /* Top-aligned, not centred: the sleeve column is taller than a viewport
+     once the caption and form are under it, and centring overflowing content
+     pushes it up underneath the nav. */
+  align-items: start;
+  /* The nav is a stacked block ~145px tall, so this has to clear it by a
+     good margin or the media reads as squashed against it. */
+  padding: clamp(12rem, 27vh, 16rem) var(--gutter) clamp(3.5rem, 7vw, 5.5rem);
+  background: var(--bark-deep);
+  color: var(--cream);
+}
+
+/* fit-content so the frame and its grain hug the media exactly — the two
+   have different aspect ratios (9:16 video, ~4:5 print), so a fixed-width box
+   would letterbox one of them.
+
+   The mask feathers all four edges into the page instead of ending on a hard
+   rectangle, so the media sits in the dark rather than on top of it. Masking
+   the figure (not the media) means the grain layer fades with it — masking
+   just the video would leave a crisp grain rectangle behind. No box-shadow,
+   for the same reason: a shadow needs an edge to fall from. */
+.split__media {
+  position: relative;
+  width: fit-content;
+  margin: 0 auto;
+  max-width: 100%;
+  overflow: hidden;
+
+  -webkit-mask-image:
+    linear-gradient(to right,  transparent 0%, #000 4%, #000 96%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 3.5%, #000 96.5%, transparent 100%);
+  -webkit-mask-composite: source-in;
+          mask-image:
+    linear-gradient(to right,  transparent 0%, #000 4%, #000 96%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 3.5%, #000 96.5%, transparent 100%);
+          mask-composite: intersect;
+}
+.split__media > img,
+.split__media > video {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  /* drop grayscale() to bring the colour back */
+  filter: grayscale(1) contrast(1.08) brightness(0.92);
+}
+.split__media > img   { max-height: 31svh; }   /* the sleeve */
+/* heavier grain than the page-wide overlay, which is tuned for type and is
+   too subtle to read as film on an image */
+.split__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)' opacity='0.75'/%3E%3C/svg%3E");
+}
+
+.split__text { text-align: center; }
+.split .eyebrow { color: rgba(247, 242, 230, 0.6); }
+
+/* the caption under the cover */
+.cover__caption { margin-top: clamp(1.25rem, 2.5vw, 1.75rem); }
+
+.album__title {
+  font-family: var(--display);
+  font-size: clamp(2.25rem, 4.2vw, 3.5rem);
+  line-height: 0.98;
+  margin: 0.4rem 0 0;
+}
+.album__sub {
+  font-family: var(--display);
+  font-size: clamp(1.15rem, 2.2vw, 1.65rem);
+  line-height: 1.2;
+  margin: 0.35rem 0 0;
+  color: rgba(247, 242, 230, 0.72);
+}
+.album__note {
+  margin: 1.25rem auto 0;
+  max-width: 34ch;
+  color: rgba(247, 242, 230, 0.72);
+}
+
+
+/* --- the video as a print --------------------------------------------------
+   A 9:16 clip reads as phone footage no matter how it's graded — the shape is
+   the tell. So it's cropped to 4:5, the same proportion as the instax sleeve
+   beside it, and mounted in a border with a deep base like a real print. It
+   stops being a screen and becomes an object on the same table.
+   --------------------------------------------------------------------------- */
+.print {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+  background: #e4e0d8;
+  padding: clamp(0.65rem, 1vw, 0.95rem)
+           clamp(0.65rem, 1vw, 0.95rem)
+           clamp(2.4rem, 3.8vw, 3.4rem);
+  box-shadow: 0 34px 60px -36px rgba(0, 0, 0, 0.85);
+
+  /* just enough to take the hard edge off, not enough to look blurred */
+  -webkit-mask-image:
+    linear-gradient(to right,  transparent 0%, #000 3%, #000 97%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 2.5%, #000 97.5%, transparent 100%);
+  -webkit-mask-composite: source-in;
+          mask-image:
+    linear-gradient(to right,  transparent 0%, #000 3%, #000 97%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 2.5%, #000 97.5%, transparent 100%);
+          mask-composite: intersect;
+}
+
+.print__window {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  height: min(58svh, 30rem);
+  width: auto;
+  max-width: 100%;
+  overflow: hidden;
+  background: #16120e;
+}
+.print__window video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 42%;
+  /* drop grayscale() to bring the colour back */
+  filter: grayscale(1) contrast(1.08) brightness(0.94);
+}
+/* same heavier grain the sleeve gets */
+.print__window::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)' opacity='0.75'/%3E%3C/svg%3E");
+}
+
+@media (max-width: 900px) {
+  .print__window { height: min(44svh, 24rem); }
+}
+
+/* --- embedded GHL form ---------------------------------------------------
+   The iframe arrives with GHL's own styling and background, so it sits on a
+   plain light panel rather than trying to blend in.
+   ------------------------------------------------------------------------- */
+.form-box {
+  margin-top: clamp(1.5rem, 3.5vw, 2.25rem);
+  background: var(--cream);
+  color: var(--ink);
+  border: 1px solid rgba(58, 46, 35, 0.16);
+  box-shadow: 0 24px 50px -30px rgba(0, 0, 0, 0.8);
+  padding: 0.35rem;
+  text-align: left;
+}
+.form-box iframe { display: block; width: 100%; border: 0; }
+
+/* stack on the way down: video, words, print */
+@media (max-width: 900px) {
+  .split {
+    grid-template-columns: 1fr;
+    gap: clamp(2.5rem, 7vw, 3.5rem);
+    padding-top: clamp(9rem, 19vh, 11rem);
+  }
+  .split__media > img   { max-height: 34svh; }
+}
+
+/* --- sign up page ---------------------------------------------------------
+   Modelled on the Wallows "Connect" page: one centred column, an oversized
+   headline carrying the pitch, underline-only fields, and a small arrow
+   button inline with the email. Their version asks for email alone — ours
+   also takes name and city, so the extra two sit on the row above.
+   ------------------------------------------------------------------------- */
+.signup-page { max-width: 620px; margin-inline: auto; text-align: center; }
+
+.signup-page__title {
+  font-family: var(--display);
+  font-size: clamp(1.9rem, 5vw, 3.4rem);
+  line-height: 1.04;
+  margin: 0 0 clamp(2.5rem, 6vw, 4rem);
+}
+
+.signup-page__form { display: grid; gap: clamp(1.25rem, 3vw, 1.9rem); }
+
+.signup-page__pair { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1rem, 2.5vw, 1.75rem); }
+@media (max-width: 520px) { .signup-page__pair { grid-template-columns: 1fr; } }
+
+/* the email row: field and arrow button share a baseline */
+.signup-page__email { display: flex; gap: 0.75rem; align-items: stretch; }
+.signup-page__email .field { flex: 1; min-width: 0; }
+
+.signup-page .field input {
+  width: 100%;
+  font-family: var(--body);
+  font-size: clamp(0.95rem, 1.6vw, 1.05rem);
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgba(58, 46, 35, 0.38);
+  padding: 0.65rem 0.15rem;
+  text-align: center;
+  transition: border-color 300ms var(--ease);
+}
+.signup-page .field input::placeholder {
+  color: rgba(58, 46, 35, 0.5);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 0.8125rem;
+}
+.signup-page .field input:focus { outline: none; border-bottom-color: var(--ochre); }
+
+.signup-page__go {
+  flex: 0 0 auto;
+  width: 52px;
+  display: grid;
+  place-items: center;
+  background: var(--bark-deep);
+  color: var(--cream);
+  border: 1px solid var(--bark-deep);
+  border-radius: 2px;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 320ms var(--ease), color 320ms var(--ease);
+}
+.signup-page__go:hover { background: var(--ochre); color: var(--bark-deep); border-color: var(--ochre); }
+
+/* consent — the fine print under the field, as on the Wallows page */
+.consent {
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-start;
+  text-align: left;
+  max-width: 470px;
+  margin-inline: auto;
+  font-size: 0.6875rem;
+  line-height: 1.5;
+  color: rgba(58, 46, 35, 0.6);
+}
+.consent input {
+  flex: 0 0 auto;
+  width: 15px; height: 15px;
+  margin-top: 0.15rem;
+  accent-color: var(--ochre);
+}
+.consent a { color: inherit; }
+
+/* --- interior page heads -------------------------------------------------- */
+/* Clears the stacked nav, which is ~140px tall — the old value let big
+   headings slide underneath it. */
+.page-head { padding-top: clamp(10rem, 24vh, 14rem); padding-bottom: clamp(2rem, 5vw, 3.5rem); text-align: center; }
+/* a page head already carries its own bottom space — the next section
+   shouldn't stack a full section's worth on top of it */
+.page-head + .section { padding-top: clamp(1rem, 3vw, 2rem); }
+.page-head h1 { text-transform: uppercase; }
+
+/* --- forms --------------------------------------------------------------- */
+.form { display: grid; gap: 1.1rem; text-align: left; }
+.form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+@media (max-width: 620px) { .form__row { grid-template-columns: 1fr; } }
+
+.field { display: grid; gap: 0.45rem; }
+.field label { font-size: 0.6875rem; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.75; }
+.field input,
+.field select,
+.field textarea {
+  font-family: var(--body);
+  font-size: 0.95rem;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgba(58, 46, 35, 0.3);
+  padding: 0.65rem 0.15rem;
+  transition: border-color 300ms var(--ease);
+}
+.field textarea { resize: vertical; min-height: 120px; }
+.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-bottom-color: var(--ochre); }
+
+/* honeypot — out of sight and out of the tab order */
+.hp { position: absolute; left: -9999px; opacity: 0; height: 0; width: 0; }
+
+.form__status { font-size: 0.875rem; min-height: 1.4em; margin: 0; }
+.form__status[data-state="ok"]  { color: var(--moss); }
+.form__status[data-state="err"] { color: #b4442f; }
+
+/* --- footer ---------------------------------------------------------------
+   On the home page this is a frosted strip sitting ON the video, so the whole
+   screen stays footage — hence the absolute positioning and the translucent
+   ground. Interior pages have no video behind them, so they get the solid
+   version in normal flow.
+   -------------------------------------------------------------------------- */
+.footer {
+  background: var(--bark-deep);
+  color: var(--cream);
+  padding-block: clamp(1.1rem, 2.2vw, 1.5rem);
+}
+
+.footer--over-hero {
+  grid-row: 3;
+  position: relative;
+  z-index: 2;
+  background: rgba(36, 28, 21, 0.52);
+  backdrop-filter: blur(14px) saturate(0.9);
+  border-top: 1px solid rgba(247, 242, 230, 0.16);
+  padding-block: clamp(0.9rem, 1.8vw, 1.25rem);
+}
+
+/* --- footer base row -------------------------------------------------------- */
+.footer__base {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.6875rem;
+  color: rgba(247, 242, 230, 0.62);
+}
+.footer__base p { margin: 0; }
+
+/* "Email us" — was near-invisible at 40% border on a dark ground. */
+.btn--email {
+  --btn-bg: transparent;
+  --btn-fg: var(--cream);
+  border-color: rgba(247, 242, 230, 0.85);
+  padding: 0.4rem 1.15rem;
+  font-size: 0.95rem;
+}
+.btn--email:hover {
+  --btn-bg: var(--cream);
+  --btn-fg: var(--bark-deep);
+  border-color: var(--cream);
+}
+
+
+/* --- mailing list popup ---------------------------------------------------
+   Appears once on a first visit. The footer bar is the always-there option;
+   this is the one that actually catches people. Dismissal is remembered so
+   returning visitors aren't nagged.
+   ------------------------------------------------------------------------- */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: var(--gutter);
+  background: rgba(36, 28, 21, 0.72);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 420ms var(--ease), visibility 420ms var(--ease);
+}
+.modal.is-open { opacity: 1; visibility: visible; }
+
+.modal__panel {
+  position: relative;
+  width: min(100%, 500px);
+  max-height: 90svh;
+  overflow-y: auto;
+  background: var(--cream);
+  color: var(--ink);
+  padding: clamp(2rem, 5vw, 3rem);
+  border: 1px solid rgba(58, 46, 35, 0.16);
+  box-shadow: 0 40px 80px -40px rgba(36, 28, 21, 0.7);
+  transform: translateY(18px) scale(0.985);
+  transition: transform 460ms var(--ease);
+}
+.modal.is-open .modal__panel { transform: none; }
+@media (prefers-reduced-motion: reduce) { .modal, .modal__panel { transition: none; } }
+
+.modal__close {
+  position: absolute;
+  top: 0.9rem; right: 0.9rem;
+  width: 38px; height: 38px;
+  display: grid;
+  place-items: center;
+  background: none;
+  border: 0;
+  border-radius: 50%;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: var(--bark);
+  cursor: pointer;
+  transition: background 300ms var(--ease);
+}
+.modal__close:hover { background: rgba(58, 46, 35, 0.09); }
+
+.modal__title { font-family: var(--display); font-size: clamp(1.6rem, 4vw, 2.1rem); margin: 0; }
+.modal__sub { margin: 0.7rem 0 1.6rem; color: rgba(58, 46, 35, 0.66); font-size: 0.95rem; }
+
+/* --- scroll reveal ------------------------------------------------------- */
+.reveal { opacity: 0; transform: translateY(26px); transition: opacity 900ms var(--ease), transform 900ms var(--ease); }
+.reveal.is-in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+
+:focus-visible { outline: 2px solid var(--ochre); outline-offset: 3px; }
+
+.skip { position: absolute; left: -9999px; background: var(--bark-deep); color: var(--cream); padding: 0.75rem 1.25rem; z-index: 10000; }
+.skip:focus { left: var(--gutter); top: 0.75rem; }
