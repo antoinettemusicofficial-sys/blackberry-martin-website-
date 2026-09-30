@@ -293,9 +293,14 @@
         panel.setAttribute('role', 'status');
         panel.innerHTML =
           '<span class="thanks__mark" aria-hidden="true">&#10022;</span>' +
-          '<p class="thanks__title">' + (form.getAttribute('data-thanks-title') || 'You’re on the list.') + '</p>' +
-          '<p class="thanks__note">' + (form.getAttribute('data-thanks-note') ||
-            'We’ll be in touch when there’s something worth telling you about — new music, shows, merch. Nothing else.') + '</p>';
+          // Falls back through data-success before the generic mailing-list
+          // wording, so a form that forgets data-thanks-title still says
+          // something true rather than welcoming a booking agent to the list.
+          '<p class="thanks__title">' +
+            (form.getAttribute('data-thanks-title') ||
+             form.getAttribute('data-success') ||
+             'Thanks — that’s gone through.') + '</p>' +
+          '<p class="thanks__note">' + (form.getAttribute('data-thanks-note') || '') + '</p>';
         var slot = form.parentNode;
         form.remove();
         if (status && status.parentNode) status.remove();

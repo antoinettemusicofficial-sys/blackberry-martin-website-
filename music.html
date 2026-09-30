@@ -60,7 +60,9 @@
       <!-- GHL embed lands here if you set a form ID in config.js; otherwise
            this styled form posts to the newsletter webhook. -->
       <div class="form-box" data-ghl="newsletter">
-        <form class="form" style="padding:1.25rem">
+        <form class="form" style="padding:1.25rem"
+              data-success="You’re on the list."
+              data-thanks-note="We’ll be in touch when Volume 2 lands. Nothing else.">
           <label class="hp" aria-hidden="true">
             Company website <input type="text" name="company_website" tabindex="-1" autocomplete="off">
           </label>
@@ -98,7 +100,8 @@
     <p class="modal__sub">First to hear when the new music lands. Once a month at most, unsubscribe whenever.</p>
 
     <div data-ghl="newsletter">
-      <form class="form" data-success="You’re on the list. Talk soon.">
+      <form class="form" data-success="You’re on the list."
+            data-thanks-note="We’ll be in touch when there’s something worth telling you about — new music, shows, merch. Nothing else.">
         <label class="hp" aria-hidden="true">
           Company website <input type="text" name="company_website" tabindex="-1" autocomplete="off">
         </label>
