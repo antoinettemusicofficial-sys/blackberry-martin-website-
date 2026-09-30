@@ -475,10 +475,14 @@ h1, h2, h3 { font-family: var(--display); font-weight: 400; letter-spacing: -0.0
 
 .print__window {
   position: relative;
+  /* Width is explicit and height is derived from it — NOT the other way round.
+     Deriving width from `height` + `aspect-ratio` inside a `fit-content`
+     parent is circular: the parent needs the child's width, the child needs
+     the parent's. Chrome resolves it; Safari collapses the width to zero,
+     leaving just the print border showing as a blank stripe. */
+  width: clamp(17rem, 60vw, 22rem);
   aspect-ratio: 4 / 5;
-  height: min(58svh, 30rem);
-  width: auto;
-  max-width: 100%;
+  min-height: 12rem;
   overflow: hidden;
   background: #16120e;
 }
@@ -502,7 +506,7 @@ h1, h2, h3 { font-family: var(--display); font-weight: 400; letter-spacing: -0.0
 }
 
 @media (max-width: 900px) {
-  .print__window { height: min(44svh, 24rem); }
+  .print__window { width: clamp(15rem, 72vw, 20rem); }
 }
 
 /* --- embedded GHL form ---------------------------------------------------
